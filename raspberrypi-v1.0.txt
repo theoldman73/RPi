@@ -1,0 +1,785 @@
+ls1- Update upgrade
+https://www.raspberrypi.org/downloads/noobs/
+https://www.raspberrypi.org/documentation/hardware/display/troubleshooting.md
+
+# sudo apt update
+# sudo apt-get upgrade
+# sudo reboot
+
+2- Install LCD 3.5 Insh #Bad Setting#
+https://www.youtube.com/watch?v=Fj3wq98pd20&ab_channel=TricKiKnow
+https://trickiknow.com/raspberry-pi-3-complete-tutorial-2018-lets-get-started/
+URL bad: github.com/goodtft
+
+3- Install LCD 3.5 Insh #Good Setting#
+https://www.waveshare.com/3.2inch-rpi-lcd-b.htm
+https://www.waveshare.com/wiki/3.2inch_RPi_LCD_(B)
+https://www.youtube.com/watch?v=er1cV1KU_ws&ab_channel=MakerTutor
+
+# sudo rm -rf LCD-show 
+# git clone https://github.com/waveshare/LCD-show.git
+# cd LCD-show/
+# chmod +x LCD32-show
+# ./LCD32-show
+# sudo raspi-config #Screen not found#
+
+4- Change Screen Resolution
+https://focuslcds.com/configuring-screen-resolution-fan4202/
+
+# sudo nano /boot/config.txt
+hdmi_force_hotplug=1
+hdmi_cvt=1024 576 60 3 1 0 0  #Change from 480 320 to 1024 576#
+hdmi_mode=87
+hdmi_group=2
+hdmi_drive=2
+# sudo reboot
+
+5- Setting up your Raspberry Pi for VNC
+https://www.raspberrypi.org/documentation/remote-access/vnc/
+https://help.realvnc.com/hc/en-us/articles/360002249917-VNC-Connect-and-Raspberry-Pi#setting-up-your-raspberry-pi-0-0
+https://manage.realvnc.com/en/teams/xg9OU9TsriBeLhTguMD
+https://www.raspberrypi.org/documentation/remote-access/vnc/
+https://www.tightvnc.com/
+https://www.realvnc.com/en/connect/download/viewer/
+un: amrzakaria73@gmail.com
+pw: the******
+
+6- Change user(pi) password
+https://raspberrypi.stackexchange.com/questions/4409/how-do-i-change-recover-my-password
+
+# sudo passwd
+
+7- Calibrator Screen
+https://drive.google.com/drive/folders/1V3QvE785eAHNXKeGZifq-pnnaIeu-Blm
+https://osoyoo.com/2017/01/18/install-3-5-hdmi-touch-screen-linux-driver-on-raspberry-pi/
+ 
+# sudo dpkg -i -B xinput-calibrator_0.7.5-1_armhf.deb
+# DISPLAY=:0.0 xinput_calibrator
+
+8- Update
+# sudo apt-get update
+# sudo apt -y upgrade
+
+9- Insatll FTP
+https://howtoraspberrypi.com/setup-ftp-server-raspberry-pi/
+https://www.patchesoft.com/learn-linux-installing-and-configuring-ftp-with-proftpd
+
+# sudo apt install proftpd
+# proftpd -v /*-- Check ver --*/
+# service proftpd stop
+# service proftpd start
+# service proftpd restart
+# sudo nano /etc/proftpd/proftpd.conf
+# sudo groupadd gftp
+# usermod -a -G gftp pi
+# id -G -n pi /*-- Check using the id --*/
+# sudo nano /etc/proftpd/proftpd.conf
+DefaultRoot                ~  ---> Change to if you want DefaultRoot /home/public_html pi
+# mkdir /home/public_html
+# chgrp pi /home/public_html
+# chmod 775 /home/public_html  /*URL: https://en.wikipedia.org/wiki/Chmod*/
+# ls -l
+
+10- Install telnet
+https://bytesofgigabytes.com/networking/raspberry-pi-telnet/
+
+# sudo apt-get install telnetd
+
+11- Install Apache Web Server 
+https://www.raspberrypi.org/documentation/remote-access/web-server/apache.md
+
+# sudo apt update
+# sudo apt install apache2 -y
+# sudo apt install php libapache2-mod-php7.3 -y
+# sudo apt install libapache2-mod-php
+# sudo chown -R pi:www-data /var/www/html/
+# sudo chmod -R 770 /var/www/html/
+# php --version
+
+12- Insatll mysql
+https://www.codegrepper.com/code-examples/php/sudo+apt+install+php7.1-mysql /*-- Use 7.3 --*/
+https://pimylifeup.com/raspberry-pi-mysql/
+https://alvinalexander.com/blog/post/mysql/show-users-i-ve-created-in-mysql-database/
+
+# sudo apt install mariadb-server /*-- Do not use this this will install 7.1 --*/
+# mysql -V
+# sudo apt install php7.1 php7.1-common php7.1-opcache php7.1-mcrypt php7.1-cli php7.1-gd php7.1-curl php7.1-mysql
+# sudo apt install php7.3 php7.3-common php7.3-opcache php7.3-cli php7.3-gd php7.3-curl php7.3-mysql /*-- Start from here --*/
+# sudo mysql -u root -p
+$ desc mysql.user;
+$ select host, user, password from mysql.user;
+
+$ CREATE USER 'admin'@'localhost' IDENTIFIED BY 'admin';
+$ GRANT ALL PRIVILEGES ON admin.* TO 'admin'@'localhost';
+$ FLUSH PRIVILEGES;
+
+$ CREATE USER 'admin'@'127.0.0.1' IDENTIFIED BY 'admin';
+$ GRANT ALL PRIVILEGES ON admin.* TO 'admin'@'127.0.0.1';
+$ FLUSH PRIVILEGES;
+
+$ CREATE USER 'admin'@'::1' IDENTIFIED BY 'admin';
+$ GRANT ALL PRIVILEGES ON *.* TO 'admin'@'::1' IDENTIFIED BY 'admin';
+$ FLUSH PRIVILEGES;
+
+$ CREATE USER 'admin'@'%' IDENTIFIED BY 'admin';
+$ GRANT ALL ON *.* to admin@'%' IDENTIFIED BY 'admin'; 
+$ FLUSH PRIVILEGES;
+
+$ GRANT ALL PRIVILEGES ON *.* TO 'admin'@'127.0.0.1' WITH GRANT OPTION;
+$ FLUSH PRIVILEGES;
+
+$ GRANT ALL PRIVILEGES ON *.* TO 'admin'@'localhost' WITH GRANT OPTION;
+$ FLUSH PRIVILEGES;
+
+$ GRANT ALL PRIVILEGES ON *.* TO 'admin'@'%' WITH GRANT OPTION;
+$ FLUSH PRIVILEGES;
+
+$ GRANT ALL PRIVILEGES ON *.* TO 'admin'@'::1' WITH GRANT OPTION;
+$ FLUSH PRIVILEGES;
+
+
+$ GRANT ALL PRIVILEGES ON *.* TO 'pi'@'localhost' IDENTIFIED BY 'admin' WITH GRANT OPTION;
+$ FLUSH PRIVILEGES;
+
+13- MySql remote connection
+https://howtoraspberrypi.com/enable-mysql-remote-connection-raspberry-pi/
+https://webdock.io/en/docs/how-guides/how-enable-remote-access-your-mariadbmysql-database
+
+# sudo nano /etc/mysql/my.cnf
+bind-address = 0.0.0.0 
+# /etc/init.d/mysql restart
+# sudo service mysql restart
+/*-- Just open file my.cnf and add "bind-address = 0.0.0.0" --*/
+# sudo nano /etc/mysql/my.cnf
+bind-address = 0.0.0.0 
+# systemctl restart mariadb
+# netstat -ant | grep 3306
+
+
+14- GUI as Root /*Not worked*/
+http://www.penguintutor.com/raspberrypi/useful-command-reference#:~:text=Files%20or%20directories%20can%20by,path%20along%20with%20the%20filename.
+https://raspberrypi.stackexchange.com/questions/74266/how-to-add-user-to-gui-sudo-list
+
+# sudo nano /etc/polkit-1/localauthority.conf.d/60-desktop-policy.conf
+
+15- List all process runing
+https://geek-university.com/raspberry-pi/list-running-processes/
+
+# ps -A
+
+16- Install PHPMyAdmin on the Raspberry Pi
+https://pimylifeup.com/raspberry-pi-phpmyadmin/
+https://raspberrytips.com/wordpress-on-raspberry-pi/
+https://www.instructables.com/Installing-LAMP-Linux-Apache-MySQL-PHP-on-a-Raspbe/
+
+# sudo apt install phpmyadmin
+# sudo nano /etc/apache2/apache2.conf
+Include /etc/phpmyadmin/apache.conf
+# sudo service apache2 restart
+# sudo ln -s /usr/share/phpmyadmin /var/www/html
+
+17- How to uninstall PHP 7 completely? (Kali Linux/Debian)
+https://stackoverflow.com/questions/39754099/how-to-uninstall-php-7-completely-kali-linux-debian
+
+# sudo apt-get purge php7.1-common
+
+18- Install Firewall /*-- Bad Setting --*/
+https://raspberrypi.stackexchange.com/questions/72695/setting-up-firewall-on-raspberrypi
+https://help.ubuntu.com/community/Gufw#:~:text=get%20install%20gufw-,Usage,default%2C%20the%20firewall%20is%20disabled.
+https://firewalld.org/blog/ 
+https://www.raspberrypi.org/forums/viewtopic.php?t=46262
+/*-- I install firewall from GUI RPi --*/
+
+# sudo iptables -L -nv /*-- Show all connection --*/
+# iptables -A INPUT -p tcp -s 0/0 --sport 1024:65535 -d 127.0.0.1  --dport 3306 -m state --state NEW,ESTABLISHED -j ACCEPT
+# iptables -A OUTPUT -p tcp -s 127.0.0.1 --sport 3306 -d 0/0 --dport 1024:65535 -m state --state ESTABLISHED -j ACCEPT
+# sudo apt-get install gufw  			/*-- Do not install it --*/
+# sudo apt-get install firewall-config 		/*-- Do not install it --*/
+# sudo apt-get purge firewall-config 		/*-- Remove It --*/
+# sudo apt-get purge  gufw			/*-- Remove It --*/
+---
+# sudo systemctl disable firewalld
+# sudo systemctl enable firewalld
+# sudo systemctl start firewalld
+# sudo systemctl stop firewalld
+
+19- Rename File
+https://www.raspberrypi.org/forums/viewtopic.php?t=199604
+
+# sudo mv my.cnf my01.cnf
+
+20- Insatll Postgres & PostGIS
+https://opensource.com/article/17/10/set-postgres-database-your-raspberry-pi
+https://www.raspberrypi.org/documentation/configuration/security.md
+https://raspberrypi.stackexchange.com/questions/71144/installing-postgis-on-raspberry-pi-to-postgresql-9-6
+https://manjaro.site/how-to-install-postgresql-on-raspberry-pi/			VIP
+https://bpwalters.com/blog/setting-up-postgresql-on-raspberry-pi/
+https://opensource.com/article/17/10/set-postgres-database-your-raspberry-pi
+https://raspberrypg.org/tag/pgadmin3/index.html
+
+# sudo apt install postgresql libpq-dev postgis postgresql-client postgresql-client-common -y
+# sudo systemctl status postgresql
+Path to DB: /etc/postgresql/11/main
+# sudo nano /etc/postgresql/11/main/postgresql.conf
+listen_addresses='*'
+# sudo systemctl restart postgresql
+# sudo nano /etc/postgresql/11/main/pg_hba.conf  
+host	 all	 all	 0.0.0.0/0	 trust
+# sudo systemctl restart postgresql
+/*-- Creat user from PgAdmin --*/
+# sudo apt-get install pgadmin3
+
+30- SQL
+https://www.viralpatel.net/reseting-mysql-autoincrement-column/
+https://stackoverflow.com/questions/8923114/how-to-reset-auto-increment-in-mysql
+https://www.techonthenet.com/mysql/auto_increment_reset.php#:~:text=In%20MySQL%2C%20the%20syntax%20to,column%20you%20wish%20to%20reset.
+
+sql> ALTER TABLE log92 AUTO_INCREMENT = 1   /*-- Reset AutoInc --*/
+
+31- Install Access point
+https://circuitdigest.com/microcontroller-projects/setting-up-wireless-access-point-using-raspberry-pi
+https://ivanmorenoj.medium.com/how-to-setup-wifi-hotspot-in-raspberry-pi-and-connect-with-esp8266-bfd595306455
+https://www.raspberrypi.org/documentation/configuration/wireless/access-point-routed.md
+https://howtoraspberrypi.com/create-a-wi-fi-hotspot-in-less-than-10-minutes-with-pi-raspberry/
+https://www.atlantic.net/vps-hosting/how-to-set-up-lighttpd-web-server-on-ubuntu-18-04/
+https://raspberrypi.stackexchange.com/questions/64115/how-to-stop-apache-from-running-a-local-web-server-on-boot
+https://httpd.apache.org/docs/2.4/bind.html
+https://serverfault.com/questions/82612/lighttpd-and-apache-on-the-same-server
+https://github.com/billz/raspap-webgui /*-- very good --*/
+https://vpn-expert.info/vpn-router-raspberry-pi-raspap-and-nordvpn-wi-fi-hotspot-access-point/
+
+# sudo apt update && sudo apt upgrade -y
+# sudo raspi-config
+# sudo systemctl status raspi-config
+---
+# sudo systemctl status lighttpd
+# sudo systemctl stop lighttpd 	/*-- To user apache2 --*/
+# sudo systemctl restart lighttpd
+# sudo systemctl status apache2
+---
+# sudo systemctl stop lighttpd
+# sudo systemctl disable lighttpd
+---
+/*-- This to enable open webgui from another PC --*/
+https://github.com/billz/raspap-webgui/issues/464
+
+# sudo nano /etc/dnsmasq.conf
+interface=wlan0
+dhcp-range=10.3.141.50,10.3.141.255,255.255.255.0,12h
+
+# Tell our clients to use us as a DNS server:
+dhcp-option=6,10.3.141.1
+
+# Prevent using the OS's DNS server
+no-resolv
+
+#Set the upstream DNS server to use:
+server=1.1.1.1
+
+# Allow typing http://raspberrypi in the browser to access this server.
+address=/raspberrypi /10.3.141.1
+
+32- XRDP for remote access (Very Good)
+https://linuxize.com/post/how-to-install-xrdp-on-raspberry-pi/
+# curl -sL https://install.raspap.com | bash
+
+# sudo apt-get install raspberrypi-ui-mods xinit xserver-xorg
+# sudo apt install xrdp 
+# systemctl show -p SubState --value xrdp
+# sudo adduser xrdp ssl-cert
+# sudo systemctl restart raspi-config
+# sudo systemctl status raspi-config
+
+33- Shutdown
+https://raspberrypi.stackexchange.com/questions/381/how-do-i-turn-off-my-raspberry-pi
+
+# sudo shutdown -h now
+
+34- Install MailServer
+https://www.ionos.com/digitalguide/server/configuration/set-up-your-own-raspberry-pi-mail-server/
+https://howtoinstall.co/en/ubuntu/xenial/citadel-suite?action=remove
+https://pimylifeup.com/raspberry-pi-email-server/
+https://www.citadel.org/documentation.html
+https://devops.ionos.com/tutorials/how-to-install-citadel-groupware-on-ubuntu-1604/
+https://pimylifeup.com/raspberry-pi-email-server/
+https://peppe8o.com/mailserver-on-raspberry-pi-with-postfix-dovecot-and-squirrelmail/    /*--- ---*/
+https://peppe8o.com/mailserver-on-raspberry-pi-with-postfix-dovecot-and-squirrelmail/
+/*-- This mail does not work --*/
+# sudo modprobe ipv6
+# sudo apt-get install citadel-suite
+# sudo service citadel start
+# sudo systemctl status citadel
+# sudo /usr/lib/citadel-server/setup
+# sudo apt-get remove citadel-suite /*-- Remove it but all folder --*/
+# sudo apt-get autoremove --purge citadel-suite /*-- Use here to remove ok... --*/
+# sudo systemctl status apache2
+# sudo systemctl restart apache2
+# sudo service restart citadel
+# hostname -I /*-- port 8080 --*/
+# sudo dpkg-reconfigure citadel-server /*-- If you need to reconfigure these options later. --*/
+sudo mkdir /etc/citadel/netconfigs
+sudo chown citadel:citadel /etc/citadel/netconfigs
+sudo service citadel restart
+sudo /usr/lib/citadel-server/setup
+-------------------------------------
+/*-- This email server is Ok--*/
+# sudo apt install postfix
+# sudo apt-get autoremove --purge postfix
+# sudo dpkg-reconfigure postfix
+# sudo apt install dovecot-imapd dovecot-pop3d
+# sudo service postfix reload
+# sudo postconf -e 'home_mailbox = Maildir/'
+# sudo postconf -e 'mailbox_command ='
+# sudo postconf -e 'smtpd_sasl_local_domain ='
+# sudo postconf -e 'smtpd_sasl_auth_enable = yes'
+# sudo postconf -e 'smtpd_sasl_security_options = noanonymous'
+# sudo postconf -e 'broken_sasl_auth_clients = yes'
+# sudo postconf -e 'smtpd_recipient_restrictions = # permit_sasl_authenticated,permit_mynetworks,reject_unauth_destination'
+# sudo postconf -e 'inet_interfaces = all'
+# sudo nano /etc/postfix/sasl/smtpd.conf
+pwcheck_method: saslauthd
+mech_list: plain login
+# touch smtpd.key
+# chmod 600 smtpd.key
+# openssl genrsa 1024 > smtpd.key
+# openssl req -new -key smtpd.key -x509 -days 3650 -out smtpd.crt
+# openssl req -new -x509 -extensions v3_ca -keyout cakey.pem -out cacert.pem -days 3650
+# sudo mv smtpd.key /etc/ssl/private/
+# sudo mv smtpd.crt /etc/ssl/certs/
+# sudo mv cakey.pem /etc/ssl/private/
+# sudo mv cacert.pem /etc/ssl/certs/
+# sudo postconf -e 'smtp_tls_security_level = may'
+# sudo postconf -e 'smtpd_tls_security_level = may'
+# sudo postconf -e 'smtpd_tls_auth_only = no'
+# sudo postconf -e 'smtp_tls_note_starttls_offer = yes'
+# sudo postconf -e 'smtpd_tls_key_file = /etc/ssl/private/smtpd.key'
+# sudo postconf -e 'smtpd_tls_cert_file = /etc/ssl/certs/smtpd.crt'
+# sudo postconf -e 'smtpd_tls_CAfile = /etc/ssl/certs/cacert.pem'
+# sudo postconf -e 'smtpd_tls_loglevel = 1'
+# sudo postconf -e 'smtpd_tls_received_header = yes'
+# sudo postconf -e 'smtpd_tls_session_cache_timeout = 3600s'
+# sudo postconf -e 'tls_random_source = dev:/dev/urandom'
+# sudo postconf -e 'myhostname = home.com' # remember to change this to yours
+# sudo systemctl restart postfix.service
+# sudo apt install libsasl2-2 sasl2-bin libsasl2-modules
+# sudo nano /etc/default/saslauthd
+START=yes
+PWDIR="/var/spool/postfix/var/run/saslauthd"
+PARAMS="-m ${PWDIR}"
+PIDFILE="${PWDIR}/saslauthd.pid"
+DESC="SASL Authentication Daemon"
+NAME="saslauthd"
+MECHANISMS="pam"
+MECH_OPTIONS=""
+THREADS=5
+OPTIONS="-c -m /var/spool/postfix/var/run/saslauthd"
+# sudo dpkg-statoverride --force-all --update --add root sasl 755 /var/spool/postfix/var/run/saslauthd
+# sudo systemctl start saslauthd.service
+# sudo apt install dovecot-imapd dovecot-pop3d
+# sudo nano /etc/dovecot/dovecot.conf
+protocols = pop3 pop3s imap imaps
+pop3_uidl_format = %08Xu%08Xv
+mail_location = maildir:/home/%u/Maildir
+# sudo nano /etc/dovecot/conf.d/10-mail.conf
+# sudo maildirmake.dovecot /etc/skel/Maildir
+# sudo maildirmake.dovecot /etc/skel/Maildir/.Drafts
+# sudo maildirmake.dovecot /etc/skel/Maildir/.Sent
+# sudo maildirmake.dovecot /etc/skel/Maildir/.Trash
+# sudo maildirmake.dovecot /etc/skel/Maildir/.Templates
+# sudo cp -r /etc/skel/Maildir /home/pi/
+# sudo chown -R pi:pi /home/pi/Maildir
+# sudo chmod -R 700 /home/pi/Maildir
+# sudo systemctl start dovecot.service
+# sudo nano /etc/apt/sources.list
+deb http://mirrordirector.raspbian.org/raspbian/ jessie main contrib non-free rpi
+# sudo apt-get update
+# sudo apt-get install squirrelmail
+# sudo cp /etc/squirrelmail/apache.conf /etc/apache2/sites-available/squirrelmail.conf
+# sudo ln -s /etc/apache2/sites-available/squirrelmail.conf /etc/apache2/sites-enabled/squirrelmail.conf
+# sudo /etc/init.d/apache2 force-reload
+
+
+35- install netstat
+https://www.tecmint.com/install-netstat-in-linux/
+
+# sudo apt install net-tools  
+
+36- Copy Dir
+https://www.raspberrypi.org/forums/viewtopic.php?t=131370
+https://discourse.osmc.tv/t/you-need-permission-to-perform-this-action/10208/3
+
+# sudo cp -av html /var/www/html.v2
+
+37- Share Folder
+https://pimylifeup.com/raspberry-pi-samba/
+
+# sudo apt-get install samba samba-common-bin
+# mkdir /home/pi/shared
+# sudo nano /etc/samba/smb.conf
+[pimylifeupshare]
+path = /home/pi/shared
+writeable=Yes
+create mask=0777
+directory mask=0777
+public=no
+
+# sudo chmod -R 777 /home/pi/shared
+
+38- Add new user for RPi
+https://raspi.tv/2012/how-to-create-a-new-user-on-raspberry-pi
+https://www.serverwatch.com/guides/adding-users-and-aliases-for-postfix/
+https://www.raspberrypi.org/forums/viewtopic.php?t=37324
+https://raspberrytips.com/new-user-on-raspberry-pi/
+
+# sudo adduser admin
+# sudo adduser admin gmail
+# userdel -r  admin /*-- will remove any user and their home directory. --*/
+# sudo deluser admin 
+
+39- Error : plaintext authentication disallowed on non-secure (ssl/tls) connections (dovecot)
+https://www.xsofthost.com/knowledgebase/71/Plaintext-authentication-disallowed-on-non-secure-SSL-TLS-connections.html
+https://docs.iredmail.org/allow.insecure.pop3.imap.smtp.connections.html
+https://rimuhosting.com/support/settingupemail.jsp
+https://ixnfo.com/en/allow-insecure-connections-to-pop3-imap-iredmail.html
+https://upcloud.com/community/tutorials/secure-postfix-using-lets-encrypt/
+https://mediatemple.net/community/products/dv/204404584/sending-or-viewing-emails-using-telnet
+https://docs.iredmail.org/allow.insecure.pop3.imap.smtp.connections.html
+https://bobcares.com/blog/postfix-authentication-not-enabled/#:~:text=This%20option%20allows%20authentication%20to,%2Fmain.cf%20as%20below.&text=That%20fixes%20the%20problem.
+https://www.base64encode.org/
+https://arduinodiy.wordpress.com/2016/12/28/sending-mail-with-an-esp8266/
+https://www.electronicshub.org/send-an-email-using-esp8266/
+https://jackstromberg.com/2020/01/setting-up-an-email-server-on-a-raspberrypi-postfix-dovecot-mariadb-roundcube/
+https://www.linode.com/docs/guides/email-with-postfix-dovecot-and-mysql/
+https://peppe8o.com/mailserver-on-raspberry-pi-with-postfix-dovecot-and-squirrelmail/
+http://micc.mitel.com/kb/KnowledgebaseArticle52275.aspx
+https://en.redinskala.com/what-is-the-difference-between-the-heloehlo-commands/
+
+# sudo nano /etc/dovecot/dovecot.conf   /*-- Do use this setting to remove POP + SMTP (Use SSL/TLS) --*/
+disable_plaintext_auth=no
+ssl=yes
+# sudo service dovecot restart
+
+# sudo nano /etc/postfix/main.cf   /*-- Do use this setting to remove POP + SMTP (Use SSL/TLS) --*/
+	#smtpd_sasl_auth_enable = yes
+	#smtpd_sasl_security_options = noanonymous
+	# force all clients to use secure connection through port 25
+	#smtpd_tls_auth_only=yes
+# sudo /etc/init.d/dovecot restart
+/*-- From CMD Windows --*/
+telnet 10.3.141.1 110
+USER admin@home.com
+PASS admin73
+
+/*-- //raspberrypi/pimylifeupshare --*/
+# sudo smbpasswd -a pi
+# sudo systemctl restart smbd
+# hostname -I
+
+40- use telnet
+https://docs.microsoft.com/en-us/exchange/mail-flow/test-smtp-with-telnet?view=exchserver-2019
+https://www.siteground.com/tutorials/email/protocols-pop3-smtp-imap/
+https://mediatemple.net/community/products/dv/204404584/sending-or-viewing-emails-using-telnet
+https://gist.github.com/floudet/75f3e089fd400c06abfc491b8098d158
+https://www.samlogic.net/articles/smtp-commands-reference.htm
+
+telnet 10.3.141.1 25
+ehlo 10.3.141.1 25
+mail from:admin@home.com
+rcpt to:pi@home.com
+data
+Subject: Test
+to:pi@home.com
+From:admin@home.com
+hi,
+hallow ,how are you?
+.
+quit
+Left Ctrl + Enter
+
+41- Code Telnet mail
+https://mediatemple.net/community/products/dv/204404584/sending-or-viewing-emails-using-telnet
+https://www.samlogic.net/articles/smtp-commands-reference.htm
+
+telnet 10.3.141.1 25
+ehlo 10.3.141.1 25
+mail from:admin@home.com
+rcpt to:pi@home.com
+data
+From:admin@home.com
+to:pi@home.com
+Subject: Test
+Date:Mon, 14 Dec 2020 21:42:19 +0200
+Organization: Home
+
+hi,
+hallow ,how are you?
+.
+hallow ,how are you?
+Left Ctrl + Enter
+
+//-------------------
+Type list to bring up a list of your emails:
+list
+You will see a list of items with labels like "1 897" and "2 5136." Here is an example:
+list
++OK POP3 clients that break here, they violate STD53.
+1 897
+2 5136
+3 1884
+4 2973
+5 2595
+6 3063
+7 3509
+8 2283
+9 1926
+10 2763
+11 1795
+12 2780
+13 2342
+14 2342
+15 2342
+16 3833
+17 2211
+18 793
+19 797
+20 2599
+.
+If you wish to read an email message such as 2 5136, you can type the following:
+retr 2 
+If you want to delete a message such as 1 897, type dele 1:
+dele 1
+When you are done checking your email, type quit.
+*--------------------
+telnet 10.3.141.1 25
+HELO home.com
+MAIL from: admin@home.com
+RCPT to: pi@home.com
+DATA
+From: admin@home.com
+To: pi@home.com
+Subject: SMTP Test message
+Body text goes here - This is a test message.
+.
+QUIT
+
+42- Install mosquitto-broker-on-raspberry-pi
+https://randomnerdtutorials.com/how-to-install-mosquitto-broker-on-raspberry-pi/
+https://randomnerdtutorials.com/testing-mosquitto-broker-and-client-on-raspbbery-pi/
+https://randomnerdtutorials.com/esp8266-nodemcu-mqtt-publish-ds18b20-arduino/
+https://github.com/marvinroger/async-mqtt-client
+https://stackoverflow.com/questions/3108937/how-to-install-and-run-phpize
+https://mosquitto.org/blog/2013/01/mosquitto-debian-repository/
+https://www.howtoinstall.me/ubuntu/18-04/libmosquitto-dev/
+https://howtoinstall.co/en/debian/stretch/libmosquitto-dev
+https://github.com/mgdm/Mosquitto-PHP/tree/master/examples
+https://mosquitto.org/blog/2013/01/mosquitto-debian-repository/
+https://www.hivemq.com/blog/mqtt-client-library-encyclopedia-mosquitto-php/
+https://github.com/mgdm/Mosquitto-PHP
+https://mosquitto-php.readthedocs.io/en/latest/message.html
+https://www.hivemq.com/blog/mqtt-client-library-encyclopedia-mosquitto-php/
+https://mosquitto-php.readthedocs.io/en/latest/
+https://mosquitto.org/
+
+# sudo apt update
+# sudo apt install -y mosquitto mosquitto-clients
+# sudo systemctl enable mosquitto.service
+# mosquitto -v
+# hostname -I
+-----
+# sudo apt-get install mosquitto-clients
+# mosquitto -d
+# mosquitto_sub -d -t testTopic
+# mosquitto_pub -d -t testTopic -m "Hello world!"
+-----
+# mosquitto_sub -d -t testTopic
+# mosquitto_pub -d -t testTopic -m "Hello world!"
+-----
+# php -v
+# sudo apt install php7.3-dev  
+# pecl install Mosquitto-alpha
+----
+# wget http://repo.mosquitto.org/debian/mosquitto-repo.gpg.key
+# sudo apt-key add mosquitto-repo.gpg.key
+# cd /etc/apt/sources.list.d/
+# apt-cache search mosquitto
+---- Finall ok for php
+# sudo apt install libmosquitto-dev
+#  pecl install Mosquitto-alpha
+
+running: make INSTALL_ROOT="/tmp/pear/temp/pear-build-piAwOJjb/install-Mosquitto-0.4.0" install
+Installing shared extensions:     /tmp/pear/temp/pear-build-piAwOJjb/install-Mosquitto-0.4.0/usr/lib/php/20180731/
+running: find "/tmp/pear/temp/pear-build-piAwOJjb/install-Mosquitto-0.4.0" | xargs ls -dils
+Build process completed successfully
+Installing '/usr/lib/php/20180731/mosquitto.so'
+install ok: channel://pecl.php.net/Mosquitto-0.4.0
+configuration option "php_ini" is not set to php.ini location
+You should add "extension=mosquitto.so" to php.ini
+---- 
+*- Example to use with php
+CREATE TABLE `mqtt_logs` (
+  `id` int(11) DEFAULT NULL,
+  `topic` text,
+  `payload` blob,
+  `received` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+<?php
+
+use Mosquitto\Client;
+use Mosquitto\Message;
+
+class MqttToDb {
+
+    /* Our Mosquitto\Client instance */
+    /**
+     * @var Client The MQTT client
+     */
+    private $mqtt;
+
+    /**
+     * @var PDO A PDO database connection
+     */
+    private $db;
+
+    /**
+     * @var array The list of topics to subscribe to
+     */
+    private $topics = [];
+
+    /**
+     * @var PDOStatement A prepared statement used when we record a message
+     */
+    private $insertMessage;
+
+    /**
+     * @param Client $mqtt The Mosquitto\Client instance
+     * @param PDO $db a PDO database connection
+     */
+    public function __construct(Client $mqtt, PDO $db)
+    {
+        $this->mqtt = $mqtt;
+        $this->db = $db;
+
+        $this->insertMessage = $this->db->prepare(
+            'INSERT INTO mqtt_logs (id, topic, payload, received) VALUES (?, ?, ?, NOW());'
+        );
+
+        /* Subscribe the Client to the topics when we connect */
+        $this->mqtt->onConnect([$this, 'subscribeToTopics']);
+        $this->mqtt->onMessage([$this, 'handleMessage']);
+    }
+
+    /**
+     * @param array $topics
+     *
+     * An associative array of topics and their QoS values
+     */
+    public function setTopics(array $topics)
+    {
+        $this->topics = $topics;
+    }
+
+    /**
+     * The internal callback used when the Client instance connects
+     */
+    public function subscribeToTopics() {
+        foreach ($this->topics as $topic => $qos) {
+            $this->mqtt->subscribe($topic, $qos);
+        }
+    }
+
+    /**
+     * @param Message $message
+     * The internal callback used when a new message is received
+     */
+    public function handleMessage($message)
+    {
+        $this->insertMessage->execute([$message->mid, $message->topic, $message->payload]);
+    }
+
+    /**
+     * Start recording messages
+     */
+    public function start()
+    {
+        $this->mqtt->loopForever();
+    }
+}
+
+/* Create a new DB connection */
+$db = new PDO('mysql:host=localhost;dbname=mqtt_logs;charset=utf8', 'mqtt_logs', 'mqtt_logs');
+
+/* Configure our Client */
+$mqtt = new Client();
+$mqtt->connect('broker.mqtt-dashboard.com');
+
+$logger = new MqttToDb($mqtt, $db);
+$logger->setTopics([
+    'sensors/room1/temperature' => 0,
+    'sensors/room2/temperature' => 0,
+]);
+
+$logger->start();
+
+?>
+
+
+
+
+
+# sudo systemctl restart apache2
+# sudo systemctl status apache2
+
+43- To know python version
+https://www.raspberrypi.org/forums/viewtopic.php?t=110573
+https://github.com/facebook/prophet/issues/418
+https://www.raspberrypi.org/documentation/linux/software/python.md
+https://eloquentarduino.github.io/2020/08/the-ultimate-guide-to-wifi-indoor-positioning-using-arduino-and-machine-learning/
+
+# python --version
+# sudo apt-get install python3.6-dev libmysqlclient-dev
+# sudo apt install python3-pip
+# pip install --upgrade setuptools
+# pip3 install micromlgen
+# pip3 install --upgrade micromlgen
+# pip3 install scikit-learn
+
+44- FIND3 server + For WiFi Loc
+https://www.internalpositioning.com/doc/server_setup.md
+
+# curl -sSL https://get.docker.com | sh	/*-- Bad setting --*/
+# sudo apt-get install g++
+
+
+*- Overall URL:
+https://fromdual.com/mysql-configuration-file-sample
+https://howtoraspberrypi.com/enable-mysql-remote-connection-raspberry-pi/
+https://www.reddit.com/r/raspberry_pi/
+https://linuxconfig.org/how-to-enable-disable-firewall-on-ubuntu-18-04-bionic-beaver-linux
+https://github.com/harryallerston/RPI-Wireless-Hotspot
+https://www.raspberrypi.org/documentation/remote-access/web-server/apache.md
+https://circuitdigest.com/microcontroller-projects/setting-up-wireless-access-point-using-raspberry-pi
+https://linuxize.com/post/how-to-list-users-in-linux/
+https://peppe8o.com/mailserver-on-raspberry-pi-with-postfix-dovecot-and-squirrelmail/
+http://192.168.1.114/index.php?page=dhcpd_conf
+http://192.168.1.114/squirrelmail/src/login.php
+https://pimylifeup.com/raspberry-pi-fail2ban/
+https://www.linuxbabe.com/mail-server/setup-basic-postfix-mail-sever-ubuntu
+https://wiki.archlinux.org/index.php/Virtual_user_mail_system_with_Postfix,_Dovecot_and_Roundcube
+https://www.debuntu.org/how-to-virtual-emails-accounts-with-postfix-and-dovecot/
+https://www.debuntu.org/how-to-virtual-emails-accounts-with-postfix-and-dovecot-page-2/
+https://www.debuntu.org/how-to-virtual-emails-accounts-with-postfix-and-dovecot-page-3/
+https://launchtimevps.com/support/settingupemail.jsp
+https://rimuhosting.com/support/settingupemail.jsp
+https://itcloudnet.blogspot.com/2014/09/how-to-install-squirrel-mailweb-mail.html
+http://www.andrewmallett.net/tech/windows/squirrelmail_windows.htm
+https://www.circuits.dk/setup-claws-mail-gmail-raspberry/
+https://www.linode.com/docs/guides/email-with-postfix-dovecot-and-mysql/
+https://www.arubacloud.com/tutorial/how-to-configure-a-pop3-imap-mail-server-with-dovecot-on-ubuntu-18-04.aspx
+https://www.digitalocean.com/community/tutorials/how-to-set-up-a-postfix-e-mail-server-with-dovecot
+https://doc.dovecot.org/admin_manual/system_users_used_by_dovecot/
+https://doc.dovecot.org/
+https://peppe8o.com/mailserver-on-raspberry-pi-with-postfix-dovecot-and-squirrelmail/
+http://www.postfix.org/docs.html
+https://mediatemple.net/community/products/dv/204404584/sending-or-viewing-emails-using-telnet
+https://www.samlogic.net/articles/smtp-commands-reference.htm
